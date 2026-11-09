@@ -1,0 +1,31 @@
+{
+  "name": "attention-analyzer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Predictive UX & Saliency Analysis — automated web page attention prediction",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "concurrently -n client,server -c cyan,magenta \"npm:dev:client\" \"npm:dev:server\"",
+    "dev:client": "npm run dev -w @attention/client",
+    "dev:server": "npm run start:dev -w @attention/server",
+    "build": "npm run build:shared && npm run build -w @attention/server && npm run build -w @attention/client",
+    "build:shared": "npm run build -w @attention/shared",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:generate": "npm run db:generate -w @attention/server",
+    "db:migrate": "npm run db:migrate -w @attention/server",
+    "db:studio": "npm run db:studio -w @attention/server",
+    "db:reset": "npm run db:reset -w @attention/server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "prettier": "^3.4.0",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Builds & artifacts
+dist/
+build/
+*.tsbuildinfo
+
+# Prisma Client (генерируется командой prisma generate)
+generated/
+
+
+# Environment
+.env
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+
+# Tests & coverage
+coverage/
+.nyc_output/
+
+# Runtime uploads
+# Не коммитим пользовательские скриншоты (макеты веб-страниц)
+apps/server/uploads/
+
+# Temp files
+*.tmp
+.tmp/

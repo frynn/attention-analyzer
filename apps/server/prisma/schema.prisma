@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects  Project[]
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyses    Analysis[]
+
+  @@index([userId])
+}
+
+model Analysis {
+  id           String   @id @default(cuid())
+  filename     String
+  width        Int
+  height       Int
+  saliencyData Json?
+  uxReport     String?
+  createdAt    DateTime @default(now())
+
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  rois         Roi[]
+
+  @@index([projectId])
+}
+
+model Roi {
+  id         String   @id @default(cuid())
+  name       String?
+  x          Int
+  y          Int
+  width      Int
+  height     Int
+  score      Float
+  createdAt  DateTime @default(now())
+
+  analysisId String
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+}
