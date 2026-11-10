@@ -7,6 +7,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { SaliencyService } from './saliency.service';
 import { UPLOADS_DIR } from './multer.config';
 import type { AnalysisDetailDto, AnalysisDto } from '@attention/shared';
+import { UxAuditService } from './ux-audit.service';
 
 @Injectable()
 export class AnalysesService {
@@ -14,6 +15,7 @@ export class AnalysesService {
     private readonly prisma: PrismaService,
     private readonly projects: ProjectsService,
     private readonly saliency: SaliencyService,
+    private readonly uxAudit: UxAuditService,
   ) {}
 
   async create(
@@ -37,6 +39,7 @@ export class AnalysesService {
     }
 
     const saliency = await this.saliency.compute(file.path);
+    const uxReport = this.uxAudit.analyze(saliency);
 
     const analysis = await this.prisma.analysis.create({
       data: {
@@ -44,6 +47,7 @@ export class AnalysesService {
         width: meta.width,
         height: meta.height,
         saliencyData: saliency as unknown as object,
+        uxReport: uxReport,
         projectId,
       },
     });
