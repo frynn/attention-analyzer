@@ -36,6 +36,38 @@ export interface ProjectDto {
   updatedAt: string;
 }
 
+export interface CreateProjectDto {
+  name: string;
+  description?: string;
+}
+
+export interface UpdateProjectDto {
+  name?: string;
+  description?: string | null;
+}
+
 // ---------- Analysis ----------
+// ---------- Analysis ----------
+
+export interface SaliencyMapDto {
+  width: number;
+  height: number;
+  /** Flat row-major array, values in [0, 1] */
+  map: number[];
+}
+
+export interface AnalysisDto {
+  id: string;
+  filename: string;
+  width: number;
+  height: number;
+  uxReport: string | null;
+  createdAt: string;
+  projectId: string;
+}
+
+export interface AnalysisDetailDto extends AnalysisDto {
+  saliency: SaliencyMapDto | null;
+}
 
 export const SALIENCY_MAX_SCORE = 100;
